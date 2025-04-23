@@ -1,0 +1,141 @@
+#main {
+  display: block;
+  background-image: url("../images/summer.jpg");
+  background-size: cover;
+  background-position-y: 100%;
+  height: 80vh;
+}
+
+#image {
+  background-image: url("../images/sunset.jpg");
+  background-size: cover;
+  background-position-y: 100%;
+  height: 75vh;
+}
+
+#section {
+  display: none;
+  height: 80vh;
+}
+
+#temp,
+#feel,
+#desc,
+#pressure,
+#humidity,
+#minTemp,
+#maxTemp,
+#wind,
+#windDir,
+#clouds,
+#sunrise,
+#sunset {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#home {
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+.modal-content input {
+  display: block;
+  width: 100%;
+  margin: 1rem 0;
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-content button {
+  padding: 0.7rem 2rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #45a049;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Main input wrapper */
+.algolia-places {}
+
+/* The algolia-places input */
+.ap-input, .ap-hint {}
+
+/* The style of the svg icons when the input is on hover */
+.ap-input:hover ~ .ap-input-icon svg,
+.ap-input:focus ~ .ap-input-icon svg,
+.ap-input-icon:hover svg {}
+
+/* The dropdown style */
+.ap-dropdown-menu {}
+
+/* The suggestions style */
+.ap-suggestion {
+  text-align: start;
+}
+
+/* The highlighted names style */
+.ap-suggestion em {}
+
+/* The addresses style */
+.ap-address {}
+
+/* The icons of each suggestions ( can be a building or a pin ) */
+.ap-suggestion-icon {}
+
+/* The style of the svg inside the .ap-suggestion-icon */
+.ap-suggestion-icon svg {}
+
+/* The icons inside the input ( can be a pin or a cross ) */
+.ap-input-icon {right: 235px;}
+
+/* The style of the svg inside the .ap-input-icon */
+.ap-input-icon svg {}
+
+/* .a-cursor is the class a suggestion go on hover */
+.ap-cursor {}
+
+/* The style of the svg icon, when the .ap-suggestion is on hover */
+.ap-cursor .ap-suggestion-icon svg {}
+
+/* The styles of the Algolia Places input footer */
+.ap-footer {}
+
+/* The styles of the Algolia Places input footer links */
+.ap-footer a {}
+
+/* The styles of the Algolia Places input footer svg icons */
+.ap-footer a svg {}
+
+/* The styles of the Algolia Places input footer on hover */
+.ap-footer:hover {}
