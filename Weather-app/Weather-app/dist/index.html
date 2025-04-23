@@ -7,9 +7,6 @@
   <script src="https://kit.fontawesome.com/2c6133bcaa.js" crossorigin="anonymous"></script>
   <title>Weather Forecasting App</title>
   <link rel="icon" type="image/x-icon" sizes="36x36" href="logo.jpg">
-  <script type="module" src="src/js/auth/signup.js"></script>
-  <script type="module" src="signup.js"></script>
-
 </head>
 
 <body>
@@ -32,20 +29,10 @@
       <input class="btn btn-outline-success my-2 my-sm-0" id="search2" type="submit" value="Search!">
     </form>
 
-  <!-- Login Button Right -->
-<a href="login.html">
-  <button class="btn btn-light">Login</button>
-</a>
-<button class="btn btn-info ml-2" onclick="window.location.href='recommendations.html'">Recommendations</button>
-
-
-   <!-- Singup Button  -->
-<a href="signup.html">
-  <button class="btn btn-warning ml-2" style="font-size: 16px; padding: 8px 20px;">
-    Sign Up
-  </button>
-</a>
-
+    <!-- Login Button Right -->
+    <button class="btn btn-light" data-toggle="modal" data-target="#loginModal">Login</button>
+    <button class="btn btn-info ml-2" onclick="window.location.href='recommendations.html'">Recommendations</button>
+  </div>
 </nav>
 
     <main id="main" class="position-relative p-5">
@@ -100,6 +87,29 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   <script src="main.js"></script>
+
+  <!-- Login/Signup Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Login / Signup</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form id="loginForm">
+          <input type="email" class="form-control mb-2" id="emailInput" placeholder="Email" required>
+          <input type="password" class="form-control mb-2" id="passwordInput" placeholder="Password" required>
+          <select class="form-control mb-2" id="accountType">
+            <option value="free">Free</option>
+            <option value="premium">Premium</option>
+          </select>
+          <button type="submit" class="btn btn-primary w-100">Log In / Sign Up</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
   document.getElementById("loginForm").addEventListener("submit", function(e) {

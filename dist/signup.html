@@ -1,0 +1,89 @@
+<!-- signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header bg-warning text-white">
+          <h3>Sign Up</h3>
+        </div>
+        <div class="card-body">
+          <form id="signupForm">
+            <div class="form-group">
+              <label for="emailSignup">Email</label>
+              <input type="email" class="form-control" id="emailSignup" required>
+            </div>
+            <div class="form-group">
+              <label for="passwordSignup">Password</label>
+              <input type="password" class="form-control" id="passwordSignup" required>
+            </div>
+            <div class="form-group">
+              <label for="accountType">Account Type</label>
+              <select class="form-control" id="accountType" onchange="showPaymentOptions()">
+                <option value="free">Free</option>
+                <option value="premium">Premium</option>
+              </select>
+            </div>
+
+            <!-- Premium Payment Section -->
+            <div id="paymentOptions" style="display: none;">
+              <div class="form-group">
+                <label for="cardNumber">Card Number</label>
+                <input type="text" class="form-control" id="cardNumber">
+              </div>
+              <div class="form-group">
+                <label for="expiryDate">Expiration Date</label>
+                <input type="month" class="form-control" id="expiryDate">
+              </div>
+              <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="text" class="form-control" id="cvv">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Sign Up</button>
+          </form>
+          <p class="text-center mt-3">Already have an account? <a href="login.html">Log in</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showPaymentOptions() {
+      const accountType = document.getElementById("accountType").value;
+      document.getElementById("paymentOptions").style.display = accountType === "premium" ? "block" : "none";
+    }
+
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById("emailSignup").value;
+      const password = document.getElementById("passwordSignup").value;
+      const accountType = document.getElementById("accountType").value;
+
+      localStorage.setItem("userEmail", email);
+      localStorage.setItem("userPassword", password);
+      localStorage.setItem("accountType", accountType);
+
+      if (accountType === "premium") {
+        localStorage.setItem("cardNumber", document.getElementById("cardNumber").value);
+        localStorage.setItem("expiryDate", document.getElementById("expiryDate").value);
+        localStorage.setItem("cvv", document.getElementById("cvv").value);
+        alert("Premium account created successfully!");
+        window.location.href = "recommendations.html";
+      } else {
+        alert("Free account created successfully!");
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+</body>
+</html>
+

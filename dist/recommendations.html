@@ -1,101 +1,144 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Recommendations</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom right, #6dd5fa, #2980b9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .dashboard {
-            background-color: #fff;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            width: 350px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-        input, button {
-            padding: 10px;
-            font-size: 16px;
-            margin: 10px 0;
-            width: 100%;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
-        button {
-            background-color: #2ecc71;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .info-box {
-            background-color: #ecf0f1;
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 10px;
-        }
-        .info-box h3 {
-            margin: 0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Recommendations</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #6dd5fa, #2980b9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .dashboard {
+      background-color: #fff;
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      width: 400px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px 0;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .info-box {
+      background-color: #ecf0f1;
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    .emoji {
+      font-size: 32px;
+      margin-top: 5px;
+    }
+  </style>
 </head>
 <body>
-    <div class="dashboard">
-        <h2>Clothing And Activity Recommendations </h2>
-        <input type="text" id="cityInput" placeholder="Enter city name">
-        <button onclick="getWeather()">Get Weather</button>
-        <div id="weatherInfo" class="info-box" style="display: none;"></div>
-        <div id="clothingRecommendation" class="info-box" style="display: none;"></div>
-        <div id="activityRecommendation" class="info-box" style="display: none;"></div>
-    </div>
 
-    <script>
-        async function getWeather() {
-            const city = document.getElementById("cityInput").value;
-            const apiKey = "f7093e7853be493e407d46a434f9c54b"; 
-            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=903507f17d707fecd352d38301efba77&units=imperial`;
+  <div class="dashboard">
+    <h2>Clothing And Activity Recommendations</h2>
+    <input type="text" id="cityInput" placeholder="Enter city name">
+    <button onclick="getWeather()">Get Weather</button>
 
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                if (data.cod !== 200) {
-                    throw new Error(data.message);
-                }
+    <div id="weatherInfo" class="info-box" style="display: none;"></div>
+    <div id="clothingRecommendation" class="info-box" style="display: none;"></div>
+    <div id="activityRecommendation" class="info-box" style="display: none;"></div>
+  </div>
 
-                const temperature = data.main.temp;
-                const condition = data.weather[0].description;
+  <script>
+    // Check if user is logged in as premium
+    function checkPremiumStatus() {
+      const accountType = localStorage.getItem("accountType");
+      if (accountType !== "premium") {
+        alert("You need to be a premium user to access this page. Redirecting to login page.");
+        window.location.href = "login.html"; // Redirect to login page
+      }
+    }
 
-                document.getElementById("weatherInfo").innerHTML = `<h3>${data.name}</h3>
-                    <p>Temperature: ${temperature}K</p>
-                    <p>Condition: ${condition}</p>`;
-                document.getElementById("weatherInfo").style.display = "block";
+    // Call the checkPremiumStatus function when the page loads
+    window.onload = checkPremiumStatus;
 
-                // Outfit Suggestion
-                let outfit = "Comfortable clothing";
-                if (temperature > 298) outfit = "Shorts and a tank top";
-                else if (temperature < 285) outfit = "Warm coat and scarf";
+    async function getWeather() {
+      const city = document.getElementById("cityInput").value;
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=903507f17d707fecd352d38301efba77&units=metric`;
 
-                // Activity Suggestion
-                let activity = "Take a walk outside";
-                if (condition.includes("rain")) activity = "Watch a movie indoors";
-                else if (condition.includes("clear")) activity = "Go for a bike ride";
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.cod !== 200) throw new Error(data.message);
 
-                document.getElementById("clothingRecommendation").innerHTML = `<strong>Outfit Recommendation</strong><p>${outfit}</p>`;
-                document.getElementById("activityRecommendation").innerHTML = `<strong>Activity Recommendation</strong><p>${activity}</p>`;
-                document.getElementById("clothingRecommendation").style.display = "block";
-                document.getElementById("activityRecommendation").style.display = "block";
-            } catch (error) {
-                alert("Error fetching weather: " + error.message);
-            }
+        const temperature = data.main.temp;
+        const condition = data.weather[0].description.toLowerCase();
+
+        document.getElementById("weatherInfo").innerHTML = `
+          <h3>${data.name}</h3>
+          <p>Temperature: ${temperature}°C</p>
+          <p>Condition: ${condition}</p>`;
+        document.getElementById("weatherInfo").style.display = "block";
+
+        // Outfit Recommendation
+        let outfitText = "Comfortable clothing";
+        let outfitEmoji = "🧥";
+
+        if (temperature > 25) {
+          outfitText = "Shorts and a tank top";
+          outfitEmoji = "🩳👕";
+        } else if (temperature < 10) {
+          outfitText = "Warm coat and scarf";
+          outfitEmoji = "🧣🧤🧥";
+        } else if (condition.includes("rain")) {
+          outfitText = "Raincoat and boots";
+          outfitEmoji = "🧥🌧️👢";
         }
-    </script>
+
+        document.getElementById("clothingRecommendation").innerHTML = `
+          <strong>Outfit Recommendation</strong>
+          <p>${outfitText}</p>
+          <div class="emoji">${outfitEmoji}</div>`;
+        document.getElementById("clothingRecommendation").style.display = "block";
+
+        // Activity Recommendation
+        let activityText = "Take a walk outside";
+        let activityEmoji = "🚶‍♀️🌳";
+
+        if (condition.includes("rain")) {
+          activityText = "Watch a movie indoors";
+          activityEmoji = "🍿🎬";
+        } else if (condition.includes("clear")) {
+          activityText = "Go for a bike ride";
+          activityEmoji = "🚴‍♂️☀️";
+        } else if (temperature < 5) {
+          activityText = "Have a warm drink at home";
+          activityEmoji = "☕🏠";
+        }
+
+        document.getElementById("activityRecommendation").innerHTML = `
+          <strong>Activity Recommendation</strong>
+          <p>${activityText}</p>
+          <div class="emoji">${activityEmoji}</div>`;
+        document.getElementById("activityRecommendation").style.display = "block";
+
+      } catch (error) {
+        alert("Error fetching weather: " + error.message);
+      }
+    }
+  </script>
+
 </body>
 </html>
+
+>>>>>>> main
