@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" type="image/png" href="logo.jpg">
   <meta charset="UTF-8">
   <title>Recommendations</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
       background: linear-gradient(to bottom right, #6dd5fa, #2980b9);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
+      padding-top: 90px; /* për të mos u mbuluar nga navbar */
     }
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background-color: #2ecc71;
+      padding: 10px 20px;
+    }
+    .navbar .navbar-brand, .navbar .nav-link {
+      color: white !important;
+    }
+
+    .navbar .btn {
+  padding: 8px 16px;
+  font-size: 15px;
+  border-radius: 6px;
+}
+
     .dashboard {
       background-color: #fff;
       border-radius: 15px;
       padding: 30px;
       text-align: center;
       width: 400px;
+      margin: 40px auto 0 auto;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
     input, button {
@@ -45,11 +63,21 @@
       font-size: 32px;
       margin-top: 5px;
     }
+    .logo {
+      margin-bottom: 20px;
+    }
+    .logo img {
+      width: 100px;
+      height: auto;
+    }
   </style>
 </head>
 <body>
-
+  <!-- Përmbajtja kryesore -->
   <div class="dashboard">
+    <div class="logo">
+      <img src="logo.jpg" alt="Logo">
+    </div>
     <h2>Clothing And Activity Recommendations</h2>
     <input type="text" id="cityInput" placeholder="Enter city name">
     <button onclick="getWeather()">Get Weather</button>
@@ -60,16 +88,15 @@
   </div>
 
   <script>
-    // Check if user is logged in as premium
+    // Kontrollo statusin premium
     function checkPremiumStatus() {
       const accountType = localStorage.getItem("accountType");
       if (accountType !== "premium") {
         alert("You need to be a premium user to access this page. Redirecting to login page.");
-        window.location.href = "login.html"; // Redirect to login page
+        window.location.href = "login.html";
       }
     }
 
-    // Call the checkPremiumStatus function when the page loads
     window.onload = checkPremiumStatus;
 
     async function getWeather() {
@@ -138,7 +165,8 @@
     }
   </script>
 
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>
-
->>>>>>> main
