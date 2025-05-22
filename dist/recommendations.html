@@ -1,17 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" type="image/png" href="logo.jpg">
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recommendations</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
       background: linear-gradient(to bottom right, #6dd5fa, #2980b9);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
+      padding-top: 90px;
+
+    }
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background-color: #ffc107;
+      padding: 10px 20px;
+    }
+    .navbar .navbar-brand, .navbar .nav-link {
+      color: white !important;
+
+    }
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background-color: #ffc107;
+      padding: 10px 20px;
+    }
+    .navbar .navbar-brand, .navbar .nav-link {
+      color: white !important;
     }
     .dashboard {
       background-color: #fff;
@@ -19,6 +43,7 @@
       padding: 30px;
       text-align: center;
       width: 400px;
+      margin: 40px auto 0 auto;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
     input, button {
@@ -45,44 +70,186 @@
       font-size: 32px;
       margin-top: 5px;
     }
+    .logo img {
+      width: 100px;
+      height: auto;
+    }
+    #weatherAlerts {
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #ffc107;
+      padding: 8px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+      margin-right: 10px;
+    }
+    #clock {
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #ffc107;
+      padding: 8px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    #navbarWeather {
+      display: flex;
+      align-items: center;
+    }
+    #sponsorshipSection {
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
+
+    <a class="navbar-brand" href="index.html">Weather App</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+      </ul>
+      <div id="navbarWeather" class="ml-auto">
+        <div id="weatherAlerts">No city selected</div>
+        <div id="clock"></div>
+      </div>
+    </div>
+  </nav>
 
   <div class="dashboard">
+    <div class="logo">
+      <img src="logo.jpg" alt="Logo">
+    </div>
     <h2>Clothing And Activity Recommendations</h2>
     <input type="text" id="cityInput" placeholder="Enter city name">
     <button onclick="getWeather()">Get Weather</button>
 
+    <div id="alarmPreferences" class="info-box">
+      <strong>Set Notification Preferences</strong>
+      <p>Choose the weather conditions you'd like to receive alerts for:</p>
+      <label><input type="checkbox" id="alertRain" checked> Rain</label><br>
+      <label><input type="checkbox" id="alertCold" checked> Cold (under 5°C)</label><br>
+      <label><input type="checkbox" id="alertHeat"> Hot (above 30°C)</label><br>
+    </div>
+
     <div id="weatherInfo" class="info-box" style="display: none;"></div>
     <div id="clothingRecommendation" class="info-box" style="display: none;"></div>
     <div id="activityRecommendation" class="info-box" style="display: none;"></div>
+    <div id="sponsorshipSection"></div>
+    <div id="customAlertsContainer" style="margin-top: 15px;"></div>
   </div>
 
   <script>
-    // Check if user is logged in as premium
     function checkPremiumStatus() {
       const accountType = localStorage.getItem("accountType");
       if (accountType !== "premium") {
         alert("You need to be a premium user to access this page. Redirecting to login page.");
-        window.location.href = "login.html"; // Redirect to login page
+        window.location.href = "login.html";
       }
     }
 
-    // Call the checkPremiumStatus function when the page loads
-    window.onload = checkPremiumStatus;
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds}`;
+    }
+
+    function loadAlertPreferences() {
+      ["alertRain", "alertCold", "alertHeat"].forEach(id => {
+        const saved = localStorage.getItem(id);
+        if (saved !== null) {
+          document.getElementById(id).checked = saved === "true";
+        }
+        document.getElementById(id).addEventListener("change", () => {
+          localStorage.setItem(id, document.getElementById(id).checked);
+        });
+      });
+    }
+
+    function showSponsorshipAlert() {
+      const sponsorships = [
+        "🌟 Sponsored by WeatherCorp – Your weather, your way!",
+        "☁️ Promo: 20% off on umbrellas at RainyDays.com!",
+        "🔥 Sponsored: Stay cool with ChillWear summer collection!"
+      ];
+      const container = document.getElementById("sponsorshipSection");
+      sponsorships.forEach(text => {
+        const alert = document.createElement("div");
+        alert.className = "alert alert-info";
+        alert.innerText = text;
+        alert.style.marginTop = "10px";
+        container.appendChild(alert);
+      });
+    }
+
+    function showCustomAlerts(messages) {
+      const container = document.getElementById("customAlertsContainer");
+      container.innerHTML = "";
+      messages.forEach(msg => {
+        const alertDiv = document.createElement("div");
+        alertDiv.className = "alert alert-warning alert-dismissible fade show";
+        alertDiv.role = "alert";
+        alertDiv.innerHTML = `
+          ${msg}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>`;
+        container.appendChild(alertDiv);
+      });
+    }
+
+    setInterval(updateClock, 1000);
+
+    window.onload = function () {
+      checkPremiumStatus();
+      updateClock();
+      showSponsorshipAlert();
+      loadAlertPreferences();
+    };
 
     async function getWeather() {
-      const city = document.getElementById("cityInput").value;
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=903507f17d707fecd352d38301efba77&units=metric`;
+      const city = document.getElementById("cityInput").value.trim();
+      if (!city) {
+        alert("Please enter a city name.");
+        return;
+      }
+
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&APPID=903507f17d707fecd352d38301efba77&units=metric`;
 
       try {
         const response = await fetch(url);
         const data = await response.json();
-        if (data.cod !== 200) throw new Error(data.message);
+        if (data.cod !== 200) throw new Error(data.message || "City not found.");
 
-        const temperature = data.main.temp;
+        const temperature = Math.round(data.main.temp);
         const condition = data.weather[0].description.toLowerCase();
+
+        document.getElementById("weatherAlerts").innerText = `${data.name}: ${temperature}°C, ${condition}`;
+
+        if ("Notification" in window) {
+          if (Notification.permission === "granted") {
+            new Notification("Përditësim Moti", {
+              body: `${data.name}: ${temperature}°C, ${condition}`
+            });
+          } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(permission => {
+              if (permission === "granted") {
+                new Notification("Përditësim Moti", {
+                  body: `${data.name}: ${temperature}°C, ${condition}`
+                });
+              }
+            });
+          }
+        }
 
         document.getElementById("weatherInfo").innerHTML = `
           <h3>${data.name}</h3>
@@ -90,10 +257,8 @@
           <p>Condition: ${condition}</p>`;
         document.getElementById("weatherInfo").style.display = "block";
 
-        // Outfit Recommendation
         let outfitText = "Comfortable clothing";
         let outfitEmoji = "🧥";
-
         if (temperature > 25) {
           outfitText = "Shorts and a tank top";
           outfitEmoji = "🩳👕";
@@ -111,10 +276,8 @@
           <div class="emoji">${outfitEmoji}</div>`;
         document.getElementById("clothingRecommendation").style.display = "block";
 
-        // Activity Recommendation
         let activityText = "Take a walk outside";
         let activityEmoji = "🚶‍♀️🌳";
-
         if (condition.includes("rain")) {
           activityText = "Watch a movie indoors";
           activityEmoji = "🍿🎬";
@@ -132,12 +295,40 @@
           <div class="emoji">${activityEmoji}</div>`;
         document.getElementById("activityRecommendation").style.display = "block";
 
+        let alertMessages = [];
+
+        if (document.getElementById("alertRain").checked && condition.includes("rain")) {
+          alertMessages.push("🔔 Rain alert! Don't forget your umbrella ☔");
+        }
+        if (document.getElementById("alertCold").checked && temperature < 5) {
+          alertMessages.push("🔔 Cold weather alert! Stay warm 🧣");
+        }
+        if (document.getElementById("alertHeat").checked && temperature > 30) {
+          alertMessages.push("🔔 Heat alert! Stay hydrated 🔥💧");
+        }
+
+        if (alertMessages.length > 0) {
+          showCustomAlerts(alertMessages);
+          if ("Notification" in window && Notification.permission === "granted") {
+            alertMessages.forEach(msg => {
+              new Notification("Weather Alert", { body: msg });
+            });
+          }
+        }
+
       } catch (error) {
-        alert("Error fetching weather: " + error.message);
+        console.error("Error fetching weather:", error.message);
+        alert("Error: " + error.message);
+        document.getElementById("weatherAlerts").innerHTML = "No city selected";
+        document.getElementById("weatherInfo").style.display = "none";
+        document.getElementById("clothingRecommendation").style.display = "none";
+        document.getElementById("activityRecommendation").style.display = "none";
       }
     }
   </script>
 
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>
-
