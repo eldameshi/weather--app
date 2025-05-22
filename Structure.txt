@@ -19,8 +19,10 @@ Weather--app/
 │   │   ├── events.js              # Ngjarjet dhe event listener-at
 │   │   ├── helpers.js              # Funksione ndihmëse
 │   │   ├── search.js              # Logjika e kërkimit për motin
-│   │   └── weather.js             # Logjika e motit
-│   │
+│   │   |── weather.js             # Logjika e motit
+│   │   |── notifications.js       # Logjika e njoftimeve
+|   |   └── sponsorship.js         # Logjika e sponsorizimeve
+|   |
 │   ├── __tests__/                 # Dosja për unit testet
 │   │   ├── helpers.test.js        #  Testet për helpers.js
 │   │   └── weather.test.js        #  Testet për weather.js

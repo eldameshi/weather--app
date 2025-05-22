@@ -3,6 +3,7 @@ import events from './js/events';
 import autoComplete from './js/search';
 import './style/style.css';
 
+
 const event = events();
 autoComplete();
 const submit = document.getElementById('submit');
