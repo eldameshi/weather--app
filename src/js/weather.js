@@ -12,4 +12,4 @@ export async function getWeather(city) {
     return (celsius * 9 / 5) + 32;
     
   }
-   
+
