@@ -1,7 +1,18 @@
+import { Sponsorship, RecommendationPersonalization } from './helpers'; // ose './sponsorship' nëse i ke ndarë
+
+
+const recommender = new RecommendationPersonalization("Premium");
+recommender.addSponsorship(new Sponsorship("Adidas", "Mbajini këmbët ngrohtë me Adidas!", { tempBelow: 5 }));
+
+const weather = { temp: 2, type: "snow" };
+const results = recommender.getRecommendations(weather);
+results.forEach(msg => console.log(msg));
+
+
 const places = require('places.js');
 
 function autoComplete() {
-  const KEY = 'f7093e7853be493e407d46a434f9c54b';
+  const KEY = 'cfae4a461317aedc5bdd601b0ea17261' 
   const ID = 'plBAKYUGY2FI';
   const placesAutocomplete = places({
     appId: ID,
