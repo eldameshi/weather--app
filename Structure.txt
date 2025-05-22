@@ -1,0 +1,37 @@
+Struktura  e projektit
+
+
+Weather--app/
+├── dist/                         # Dosja me skedarë të ndërtuar për prodhim 
+│   ├── index.html                 # Faqja kryesore e aplikacionit
+│   ├── login.html                 # Faqja e hyrjes
+│   ├── signup.html                # Faqja e regjistrimit
+│   ├── recommendations.html       # Faqe për rekomandime veshjeje dhe aktiviteteve bazuar në mot
+│   ├── main.js                    # Skripti i ndërtuar (output nga Webpack)
+│   ├── logo.jpg                     # Logo e aplikacionit
+│   ├── pic.1.jpg                   # Imazh për ndërfaqe (placeholder)
+│   └── pic.2.jpg                  # Imazh për ndërfaqe (placeholder)
+
+├── src/                           # Burimi kryesor i aplikacionit
+│   ├── images/                     # Dosje me imazhe të përdorura në UI
+│   ├── js/                       # Skripte JavaScript për logjikën e aplikacionit
+│   |   ├── dom.js                  # Menaxhim i DOM-it
+│   │   ├── events.js              # Ngjarjet dhe event listener-at
+│   │   ├── helpers.js              # Funksione ndihmëse
+│   │   ├── search.js              # Logjika e kërkimit për motin
+│   │   |── weather.js             # Logjika e motit
+│   │   |── notifications.js       # Logjika e njoftimeve
+|   |   └── sponsorship.js         # Logjika e sponsorizimeve
+|   |
+│   ├── __tests__/                 # Dosja për unit testet
+│   │   ├── helpers.test.js        #  Testet për helpers.js
+│   │   └── weather.test.js        #  Testet për weather.js
+│   │
+│   ├── style.css                    # Stilet CSS për ndërfaqen
+│   ├── index.js                   # Skripti kryesor që bashkon komponentët
+│   └── jest.config.js             # Konfigurimi për Jest
+|
+├── api-docs.md                    # Placeholder për dokumentacionin e API-së
+├── babel.config.js                # Konfigurimi për Babel
+├── package.json                   # Varësitë dhe skriptet për npm
+└── webpack.config.js             # Konfigurimi për ndërtimin me Webpack                                  
