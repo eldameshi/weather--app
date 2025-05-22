@@ -10,6 +10,10 @@ export async function getWeather(city) {
   // Konverton temperaturën nga Celsius në Fahrenheit
   export function formatTemperature(celsius) {
     return (celsius * 9 / 5) + 32;
+<<<<<<< Updated upstream
     
+=======
+
+>>>>>>> Stashed changes
   }
 
