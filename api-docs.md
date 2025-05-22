@@ -127,6 +127,7 @@ autoComplete(); // Aktivizon input-in e kërkimit
 
 ## ❗ Kodet e Gabimeve nga API
 
+
 | Kodi | Kuptimi                             | Përshkrimi                                                                |
 |------|-------------------------------------|---------------------------------------------------------------------------|
 | 400  | Bad Request                         | Kërkesa është e gabuar ose mungojnë parametrat e nevojshëm.               |
@@ -134,5 +135,6 @@ autoComplete(); // Aktivizon input-in e kërkimit
 | 403  | Forbidden                           | Akses i ndaluar – mund të ketë kufizime në planin e API-së.               |
 | 404  | Not Found                           | Qyteti nuk u gjet ose URL është e gabuar.                                 |
 | 500+ | Internal Server Error / Server Fail | Problemi është nga ana e serverit të OpenWeather ose Algolia.             |
+
 
 > ⚠️ Për çdo gabim, përdoret një mesazh i personalizuar në `#errorMessage` me fshirje automatike pas disa sekondash.
