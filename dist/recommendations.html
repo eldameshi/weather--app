@@ -147,13 +147,39 @@
   </div>
 
   <script>
-    function checkPremiumStatus() {
-      const accountType = localStorage.getItem("accountType");
-      if (accountType !== "premium") {
-        alert("You need to be a premium user to access this page. Redirecting to login page.");
-        window.location.href = "login.html";
-      }
+ function checkPremiumStatus() {
+    const isDemoMode = true; // kjo lejon gjithmonë aksesin nëse është true
+    const accountType = localStorage.getItem("accountType");
+    if (isDemoMode) {
+        const demoBanner = document.createElement("div");
+        demoBanner.innerHTML = 
+            '⚠️ You are currently in Demo Mode – some features may be limited.' +
+            '<button ' +
+            'style="background: none; border: none; color: white; font-size: 20px; font-weight: bold; float: right; margin-top: -5px; cursor: pointer;" ' +
+            'onclick="this.parentElement.remove()">&times;</button>';
+        demoBanner.style.backgroundColor = "#f39c12";
+        demoBanner.style.color = "#fff";
+        demoBanner.style.padding = "10px 20px";
+        demoBanner.style.textAlign = "center";
+        demoBanner.style.fontWeight = "bold";
+        demoBanner.style.position = "fixed";
+        demoBanner.style.top = "56px";
+        demoBanner.style.left = "0";
+        demoBanner.style.right = "0";
+        demoBanner.style.zIndex = "1001";
+        document.body.appendChild(demoBanner);
+    } else {
+        if (accountType !== "premium") {
+            alert("You need to be a premium user to access this page. Redirecting to login page.");
+            window.location.href = "login.html";
+        }
     }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    checkPremiumStatus();
+});
+
 
     function updateClock() {
       const now = new Date();
