@@ -22,7 +22,7 @@ Weather--app/
 │   │   |── weather.js             # Logjika e motit
 │   │   |── notifications.js       # Logjika e njoftimeve
 |   |   └── sponsorship.js         # Logjika e sponsorizimeve
-|   |
+│   │
 │   ├── __tests__/                 # Dosja për unit testet
 │   │   ├── helpers.test.js        #  Testet për helpers.js
 │   │   └── weather.test.js        #  Testet për weather.js
