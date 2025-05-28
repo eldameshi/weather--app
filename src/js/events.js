@@ -1,3 +1,29 @@
+
+import { NotificationPreferences, WeatherNotification, WeatherAlertService } from './notifications';
+import { Sponsorship, RecommendationPersonalization } from './sponsorship';
+
+
+import { NotificationPreferences } from './notifications';
+
+const userPrefs = new NotificationPreferences("user123", { receiveDaily: true });
+
+import { WeatherNotification } from './notifications';
+
+const notif = WeatherNotification.createNotification("Sot do të ketë shi.", "info");
+console.log(notif.message); // "Sot do të ketë shi."
+
+import { WeatherAlertService, WeatherNotification } from './notifications';
+
+const alertService = new WeatherAlertService(8);
+const current = { temp: 15 };
+const forecast = { temp: 5 };
+
+const alert = alertService.checkForSuddenChange(current, forecast);
+if (alert) {
+    console.log(alert.message); // Njoftim për mot të papritur
+}
+
+
 import dom from './dom';
 
 const events = function events() {
@@ -15,7 +41,38 @@ const events = function events() {
     dom().clearForms();
     dom().createCard(data);
     dom().show('forecast');
+    // === SPONSORIZIMET ===
+  const forecastTemp = data.list[0].main.temp;
+  const forecastType = data.list[0].weather[0].main.toLowerCase();
+
+  const userType = "Premium"; // ose "Free"
+  const personalization = new RecommendationPersonalization(userType);
+
+  personalization.addSponsorship(new Sponsorship(
+    "RainCoat Co.",
+    "Stay dry with 20% off raincoats!",
+    { weatherType: "rain" }
+  ));
+
+  personalization.addSponsorship(new Sponsorship(
+    "HotDrinks Inc.",
+    "Warm up with our cocoa!",
+    { tempBelow: 15 }
+  ));
+
+  const recommendations = personalization.getRecommendations({
+    temp: forecastTemp,
+    type: forecastType
+  });
+
+  const sponsorDiv = document.getElementById("sponsorships");
+  if (sponsorDiv) {
+    sponsorDiv.innerHTML = recommendations.length > 0
+      ? recommendations.map(r => `<p>${r}</p>`).join('')
+      : "<p>No sponsorships today.</p>";
   }
+}
+  
 
   async function getSearch(city) {
     try {
