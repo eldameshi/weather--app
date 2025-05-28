@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/2c6133bcaa.js" crossorigin="anonymous"></script>
-  <title>Weather Forecasting App</title>
+  <title>Weather App</title>
   <link rel="icon" type="image/x-icon" sizes="36x36" href="logo.jpg">
   <script type="module" src="src/js/auth/signup.js"></script>
   <script type="module" src="signup.js"></script>
@@ -32,11 +32,11 @@
       <input class="btn btn-outline-success my-2 my-sm-0" id="search2" type="submit" value="Search!">
     </form>
 
-  <!-- Login Button Right -->
-<a href="login.html">
-  <button class="btn btn-light">Login</button>
-</a>
-<button class="btn btn-info ml-2" onclick="window.location.href='recommendations.html'">Recommendations</button>
+      <a href="login.html"><button class="btn btn-light">Login</button></a>
+      <button class="btn btn-info ml-2" onclick="goToRecommendations()">Recommendations</button>
+      <a href="signup.html"><button class="btn btn-warning ml-2" style="font-size: 16px; padding: 8px 20px;">Sign Up</button></a>
+    </div>
+  </nav>
 
 
    <!-- Singup Button  -->
@@ -112,6 +112,84 @@
     $('#loginModal').modal('hide');
     location.reload();
   });
+</script>
+
+  <!--  Error handling script 
+      <script>
+    const KEY = 'cfae4a461317aedc5bdd601b0ea17261';
+
+    async function fetchWeather(city) {
+      const url = 'https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${KEY}&units=metric';
+
+      try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          let message;
+          switch (response.status) {
+            case 401:
+              message = "401 → Çelësi i API-së është gabim ose mungon autorizimi.";
+              break;
+            case 404:
+              message = "404 → Qyteti nuk u gjet.";
+              break;
+            case 429:
+              message = "429 → Kërkesa të tepërta – ke kaluar limitin e API-së.";
+              break;
+            case 500:
+            case 502:
+            case 503:
+              message = "500+ → Problem me serverin. Provo më vonë.";
+              break;
+            default:
+              message = 'Gabim ${response.status} – ${response.statusText}';
+          }
+
+          document.getElementById("errorMessage").innerText = message;
+          setTimeout(() => {
+           document.getElementById("errorMessage").innerText = "";
+            }, 5000);
+
+          return;
+        }
+
+        const data = await response.json();
+        document.getElementById("errorMessage").innerText = "";
+
+        console.log(data); 
+
+        
+        document.getElementById("temp").innerText = 'Temperatura: ${data.main.temp}°C';
+        document.getElementById("desc").innerText = 'Përshkrimi: ${data.weather[0].description}';
+        document.getElementById("title").innerText = data.name;
+
+      } catch (err) {
+        document.getElementById("errorMessage").innerText = "Gabim në rrjet ose lidhje me API.";
+        console.error("Gabim rrjeti:", err);
+      }
+    }
+
+    document.getElementById("searching").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const city = document.getElementById("search").value.trim();
+
+      if (city) {
+        //fetchWeather(city);
+      } else {
+        //document.getElementById("errorMessage").innerText = "Ju lutem shkruani një qytet.";
+      }
+    });
+  </script> -->
+  <script>
+  function goToRecommendations() {
+    const accountType = localStorage.getItem("accountType");
+    if (accountType === "premium") {
+      window.location.href = "recommendations.html";
+    } else {
+      alert("You need to be a premium user to access recommendations.");
+      window.location.href = "login.html"; // ose faqja që preferon
+    }
+  }
 </script>
 
 </body>

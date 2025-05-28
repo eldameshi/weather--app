@@ -31,21 +31,23 @@
               </select>
             </div>
 
+            
             <!-- Premium Payment Section -->
-            <div id="paymentOptions" style="display: none;">
-              <div class="form-group">
-                <label for="cardNumber">Card Number</label>
-                <input type="text" class="form-control" id="cardNumber">
-              </div>
-              <div class="form-group">
-                <label for="expiryDate">Expiration Date</label>
-                <input type="month" class="form-control" id="expiryDate">
-              </div>
-              <div class="form-group">
-                <label for="cvv">CVV</label>
-                <input type="text" class="form-control" id="cvv">
-              </div>
-            </div>
+<div id="paymentOptions" style="display: none;">
+  <div class="form-group">
+    <label for="cardNumber">Card Number</label>
+    <input type="password" class="form-control" id="cardNumber">
+  </div>
+  <div class="form-group">
+    <label for="expiryDate">Expiration Date</label>
+    <input type="month" class="form-control" id="expiryDate">
+  </div>
+  <div class="form-group">
+    <label for="cvv">CVV</label>
+    <input type="password" class="form-control" id="cvv">
+  </div>
+</div>
+
 
             <button type="submit" class="btn btn-success w-100">Sign Up</button>
           </form>
@@ -61,28 +63,40 @@
       document.getElementById("paymentOptions").style.display = accountType === "premium" ? "block" : "none";
     }
 
-    document.getElementById("signupForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+   document.getElementById("signupForm").addEventListener("submit", function(e) {
+  e.preventDefault();
 
-      const email = document.getElementById("emailSignup").value;
-      const password = document.getElementById("passwordSignup").value;
-      const accountType = document.getElementById("accountType").value;
+  const email = document.getElementById("emailSignup").value;
+  const password = document.getElementById("passwordSignup").value;
+  const accountType = document.getElementById("accountType").value;
 
-      localStorage.setItem("userEmail", email);
-      localStorage.setItem("userPassword", password);
-      localStorage.setItem("accountType", accountType);
+  if (accountType === "premium") {
+    const cardNumber = document.getElementById("cardNumber").value.trim();
+    const expiryDate = document.getElementById("expiryDate").value.trim();
+    const cvv = document.getElementById("cvv").value.trim();
 
-      if (accountType === "premium") {
-        localStorage.setItem("cardNumber", document.getElementById("cardNumber").value);
-        localStorage.setItem("expiryDate", document.getElementById("expiryDate").value);
-        localStorage.setItem("cvv", document.getElementById("cvv").value);
-        alert("Premium account created successfully!");
-        window.location.href = "recommendations.html";
-      } else {
-        alert("Free account created successfully!");
-        window.location.href = "index.html";
-      }
-    });
+    if (!cardNumber || !expiryDate || !cvv) {
+      alert("Please fill in all payment details for Premium account.");
+      return; 
+    }
+  }
+
+  localStorage.setItem("userEmail", email);
+  localStorage.setItem("userPassword", password);
+  localStorage.setItem("accountType", accountType);
+
+  if (accountType === "premium") {
+    localStorage.setItem("cardNumber", document.getElementById("cardNumber").value);
+    localStorage.setItem("expiryDate", document.getElementById("expiryDate").value);
+    localStorage.setItem("cvv", document.getElementById("cvv").value);
+    alert("Premium account created successfully!");
+    window.location.href = "recommendations.html";
+  } else {
+    alert("Free account created successfully!");
+    window.location.href = "index.html";
+  }
+});
+
   </script>
 </body>
 </html>
